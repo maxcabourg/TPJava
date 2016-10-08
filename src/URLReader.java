@@ -17,20 +17,21 @@ public class URLReader {
 			FileReader fr = new FileReader(new File("adresses.txt"));
 			BufferedReader br = new BufferedReader(fr);
 			String lien;
+			int compteur = 0;
 			while((lien = br.readLine()) != null){
-				URL url = new URL(lien);
-				BufferedImage image = ImageIO.read(url);
-				String[] trucs = lien.split(".");
+				URL url = new URL(lien);			
+				String[] trucs = lien.split("\\.");
 				String extension = trucs[trucs.length-1];
 				File f = new File(extension);
 				if(!f.isDirectory()){
 					f.mkdir();
 				}
-				ImageIO.write(image, extension, f);
-				image.flush();
-				
-				
-				
+				if(extension.equals("jpg") || extension.equals("png") || extension.equals("gif")){
+					BufferedImage image = ImageIO.read(url);
+					ImageIO.write(image, extension, new File(extension+"/image"+compteur+"."+extension));
+					image.flush();
+					compteur++;
+				}			
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
