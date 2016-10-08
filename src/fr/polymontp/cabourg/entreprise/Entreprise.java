@@ -13,12 +13,12 @@ public class Entreprise{
     }
 
     public void ajouterEmploye(Employe e) throws EntrepriseSatureDeCommerciauxException{
-        int truc = 0;
+        int compteur = 0;
         for(Employe em: employes){
             if(em instanceof Commercial)
-                truc++;
+                compteur++;
         }
-        if(truc >=nbCommerciaux)
+        if(compteur >=nbCommerciaux)
             throw new EntrepriseSatureDeCommerciauxException(this);
         else{
                 int nbEmployes = 0;

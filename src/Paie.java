@@ -20,9 +20,15 @@ public class Paie {
             ent.ajouterEmploye(c1);
             ent.ajouterEmploye(c2);
             File f = new File("Commercial.txt");
+            File f2 = new File("CommercialBinaire.txt");
             f.createNewFile();
+            f2.createNewFile();
             FileWriter fw = new FileWriter(f);
             ((Commercial)c1).enregistreToi(fw);
+            DataOutputStream dos = new DataOutputStream(new FileOutputStream(f2));
+            ((Commercial)c1).enregistreToiBinaire(dos);
+            
+            System.out.println("Fini");
         }
         catch(EntrepriseSatureDeCommerciauxException e){
             e.printStackTrace();

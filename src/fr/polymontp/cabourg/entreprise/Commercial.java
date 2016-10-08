@@ -37,6 +37,15 @@ public class Commercial extends Employe {
         fw.flush();
         fw.close();
     }
+    
+    public void enregistreToiBinaire(DataOutputStream dos) throws IOException {
+    	
+    	dos.writeUTF(nom);
+    	dos.writeDouble(chiffreAffaires);
+    	dos.writeDouble(salaire);
+    	dos.flush();
+    	dos.close();
+    }
 
     public static Commercial lire(FileReader fr) throws IOException{
         BufferedReader br = new BufferedReader(fr);
@@ -45,5 +54,13 @@ public class Commercial extends Employe {
         br.close();
         fr.close();
         return new Commercial(st.nextToken(), Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()));
+    }
+    
+    public static Commercial lireBinaire(DataInputStream dis) throws IOException{
+    	
+    	String name = dis.readUTF();
+    	double ca = dis.readDouble();
+    	double salaire = dis.readDouble();
+    	return new Commercial(name, ca, salaire);
     }
 }
