@@ -4,7 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import javax.imageio.ImageIO;
 
@@ -20,8 +24,8 @@ public class URLReader {
 			int compteur = 0;
 			while((lien = br.readLine()) != null){
 				URL url = new URL(lien);			
-				String[] trucs = lien.split("\\.");
-				String extension = trucs[trucs.length-1];
+				String[] elements = lien.split("\\.");
+				String extension = elements[elements.length-1];
 				File f = new File(extension);
 				if(!f.isDirectory()){
 					f.mkdir();
@@ -31,7 +35,12 @@ public class URLReader {
 					ImageIO.write(image, extension, new File(extension+"/image"+compteur+"."+extension));
 					image.flush();
 					compteur++;
-				}			
+				}
+				else{ //PDF
+					InputStream in = url.openStream();
+					Files.copy(in, Paths.get(extension+"/pdf"+compteur+"."+extension), StandardCopyOption.REPLACE_EXISTING);
+					in.close();
+				}
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
