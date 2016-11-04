@@ -1,5 +1,9 @@
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import fr.polymontp.cabourg.entreprise.Employe2;
 import fr.polymontp.cabourg.entreprise.Entreprise2;
@@ -32,8 +36,30 @@ public class TP3main {
 		e1.sort();
 		Collections.sort(e1.getEmployes(), new SalaryComparator(true));
 		System.out.println(e1);
+		ArrayList fusion = new ArrayList();
+		fusion.addAll(e1.getEmployes());
+		fusion.addAll(e2.getEmployes());
 		Collections.sort(e1.getEmployes(), new SalaryComparator(false));
 		System.out.println("Reverse order "+e1);
+		Collections.sort(fusion);
+		System.out.println(fusion);
+		
+		//Question 4
+		Map employes = new HashMap();
+		employes.put("Fred", "Wilma");
+		employes.put("Barney", "Betty");
+		employes.put("Tristan", "Isolde");
+		employes.put("Romeo", "Juliette");
+		Set keys= employes.keySet();
+	
+		Iterator i=keys.iterator(); // on crée un Iterator pour parcourir notre HashSet
+		Map employesReverse = new HashMap();
+		while(i.hasNext()) // tant qu'on a un suivant
+		{
+			String current = i.next().toString();
+			employesReverse.put((String)employes.get(current), current);
+		}
+		System.out.println(employesReverse);
 	}
 
 }
