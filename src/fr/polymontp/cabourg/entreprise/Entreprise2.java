@@ -1,6 +1,7 @@
 package fr.polymontp.cabourg.entreprise;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class Entreprise2 {
@@ -22,6 +23,10 @@ public class Entreprise2 {
 		return employes.remove(e);
 	}
 	
+	public ArrayList getEmployes(){
+		return employes;
+	}
+	
 	@Override
 	public String toString(){
 		String description = new String(name+"\n");
@@ -33,5 +38,9 @@ public class Entreprise2 {
 	
 	public Iterator iterEmployes(){
 		return employes.iterator();
+	}
+	
+	public void sort(){
+		Collections.sort(employes);
 	}
 }

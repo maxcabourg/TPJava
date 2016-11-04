@@ -17,10 +17,14 @@ public class Employe2 implements Comparable{
 	public double getSalaire(){
 		return salaire;
 	}
+	
+	public String getNom(){
+		return nom;
+	}
 
 	@Override
 	public int compareTo(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
+		return nom.compareTo(((Employe2) o).getNom());
 	}
+	
 }
