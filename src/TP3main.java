@@ -50,7 +50,7 @@ public class TP3main {
 		employes.put("Barney", "Betty");
 		employes.put("Tristan", "Isolde");
 		employes.put("Romeo", "Juliette");
-		Set keys= employes.keySet();
+		Set keys= employes.keySet(); 
 	
 		Iterator i=keys.iterator(); // on crée un Iterator pour parcourir notre HashSet
 		Map employesReverse = new HashMap();
