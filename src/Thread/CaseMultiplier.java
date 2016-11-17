@@ -16,6 +16,7 @@ public class CaseMultiplier extends Thread{
 		for(int i = 0;i<array1.length;i++){
 			stack += array1[i]*array2[i];
 		}
+		result = stack;
 	}
 	
 	public int getResult(){
