@@ -8,21 +8,23 @@ public class WaitTrieur implements Runnable{
 	private int[] t;
 	private int debut;
 	private int fin;
-	private Object o;
+	private Integer compteur;
+	private WaitTrieur father;
 
 
 	private WaitTrieur(int[] t) {
 		this.t = t;
 		this.debut = 0;
 		this.fin = t.length-1;
-		this.o = new Object();
+		this.compteur = 0;
 	}
 
-	private WaitTrieur(int[] t,int debut,int fin, Object o) {
+	private WaitTrieur(int[] t,int debut,int fin,WaitTrieur father) {
 		this.t = t;
 		this.debut = debut;
 		this.fin = fin;
-		this.o = o;
+		this.compteur = 0;
+		this.father = father;
 	}
 
 
@@ -48,25 +50,35 @@ public class WaitTrieur implements Runnable{
 			}
 		}
 		else {
-			Object o = new Object();
 			int milieu = debut + (fin - debut) / 2;
-			WaitTrieur t1 = new WaitTrieur(t,debut,milieu,o);
+			WaitTrieur t1 = new WaitTrieur(t,debut,milieu,this);
 			Thread thread1 = new Thread(t1);
 			thread1.start();
-			WaitTrieur t2 = new WaitTrieur(t,milieu+1,fin,o);
+			WaitTrieur t2 = new WaitTrieur(t,milieu+1,fin,this);
 			Thread thread2 = new Thread(t2);
 			thread2.start();
-			o.notify();
-			try {
-				o.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			synchronized(this){ // When I'm a son
+				try {
+					while(compteur != 2){
+						this.wait();
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
-			o.notify();
 			triFusion(debut, fin);
+		}
+		if(father != null){ // When I'm da boss
+			synchronized(father){
+				father.incrementeCompteur();
+				father.notifyAll();
+			}
 		}
 	}
 
+	public void incrementeCompteur(){
+		this.compteur++;
+	}
 	/**
 	 * Echanger t[i] et t[j]
 	 */
@@ -117,13 +129,6 @@ public class WaitTrieur implements Runnable{
 		}
 	}
 
-	public void waitO() throws InterruptedException{
-		o.wait();
-	}
-	
-	public void notifyO() throws InterruptedException{
-		o.notify();
-	}
 
 	public static void main(String[] args) {
 		int[] t = {5, 8, 3, 2, 7, 10, 1};
